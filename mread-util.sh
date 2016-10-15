@@ -15,11 +15,11 @@ jgripe() {
 
     if [ "$1" != "-j" ]
     then
-        gripe $_IGNORECASE --include \*.java "$@"
+        gripe "$_IGNORECASE" --include \*.java "$@"
     else
         _FNAME="$2" ;
         shift 2 ;
-        gripe $_IGNORECASE --include "$_FNAME".java "$@"
+        gripe "$_IGNORECASE" --include "$_FNAME".java "$@"
     fi
 }
 
@@ -27,12 +27,12 @@ alias jigripe='jgripe -i'
 
 testgripe() {
     grep -rIE "(Failure|Error)s: [^0]" "$@" | while read -r line ; do
-        cat $(echo $line | awk -F':' '{print $1}') | less
+        cat $(echo "$line" | awk -F':' '{print $1}') | less
     done
 }
 
 addcert() {
-    certutil -d sql:$HOME/.pki/nssdb -A -t P -n $1 -i $1
+    certutil -d sql:"$HOME"/.pki/nssdb -A -t P -n "$1" -i "$1"
 }
 
 rebase() {
@@ -52,7 +52,7 @@ gitcrunch() {
 alias changedfiles='git diff --name-only HEAD~1'
 
 killname() {
-    sudo ps aux | grep -i "$1" | grep -v grep | awk '{print $2}' | while read line; do sudo kill -9 $line; done
+    sudo ps aux | grep -i "$1" | grep -v grep | awk '{print $2}' | while read line; do sudo kill -9 "$line"; done
 }
 
 bashedit() {
@@ -68,7 +68,13 @@ utiledit() {
 alias cls='clear'
 
 github_create_repo() {
-    curl -u "$GITHUB_USERNAME" https://api.github.com/user/repos -d '{"name":"'"$1"'"}' -H 'X-GitHub-OTP: '"$2"
+    local ARGS=""
+    if [ "$2" == "" ]; then echo "Usage: github_create_repo [username] [reponame] <oneTimeCode>"; fi
+    if [ "$3" != "" ]; then ARGS="-H "\'"X-GitHub-OTP: $3"\'; fi
+
+    echo curl -u "$1" https://api.github.com/user/repos -d '{"name":"'"$2"'"}' "$ARGS"
 }
-alias ghcr='github_create_repo'
+ghcr() {
+    github_create_repo "$GITHUB_USERNAME" "$@"
+}
 
