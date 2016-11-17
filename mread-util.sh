@@ -1,28 +1,11 @@
 gripeb() {
+    echo grep --color=always -rIE --exclude-dir=\.git "$@" . ;
     grep --color=always -rIE --exclude-dir=\.git "$@" . | less -r ;
 }
 
 alias gripe='gripeb 2>/dev/null'
 alias igripe='gripe -i'
-
-jgripe() {
-    local _IGNORECASE=""
-    if [ "$1" == "-i" ]
-    then
-        _IGNORECASE="-i" ;
-        shift
-    fi
-
-    if [ "$1" != "-j" ]
-    then
-        gripe "$_IGNORECASE" --include \*.java "$@"
-    else
-        _FNAME="$2" ;
-        shift 2 ;
-        gripe "$_IGNORECASE" --include "$_FNAME".java "$@"
-    fi
-}
-
+alias jgripe='gripe --include \*.java'
 alias jigripe='jgripe -i'
 
 testgripe() {
@@ -72,7 +55,7 @@ github_create_repo() {
     if [ "$2" == "" ]; then echo "Usage: github_create_repo [username] [reponame] <oneTimeCode>"; fi
     if [ "$3" != "" ]; then ARGS="-H "\'"X-GitHub-OTP: $3"\'; fi
 
-    echo curl -u "$1" https://api.github.com/user/repos -d '{"name":"'"$2"'"}' "$ARGS"
+    curl -u "$1" https://api.github.com/user/repos -d '{"name":"'"$2"'"}' "$ARGS"
 }
 ghcr() {
     github_create_repo "$GITHUB_USERNAME" "$@"
