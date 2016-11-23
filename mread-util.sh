@@ -7,6 +7,10 @@ alias gripe='gripeb 2>/dev/null'
 alias igripe='gripe -i'
 alias jgripe='gripe --include \*.java'
 alias jigripe='jgripe -i'
+alias jsgripe='gripe --include \*.js --include \*.mustache --exclude node_modules'
+alias jsigripe='jsgripe -i'
+alias sqlgripe='gripe --include \*.sql'
+alias sqligripe='sqlgripe -i'
 
 testgripe() {
     grep -rIE "(Failure|Error)s: [^0]" "$@" | while read -r line ; do
