@@ -28,12 +28,28 @@ rebase() {
     git fetch && git rebase "${@:2}" $i origin/master
 }
 
-gitcrunch() {
+crunch() {
     git add -u &&
     git commit --amend --no-edit &&
     git fetch &&
     git rebase origin/master &&
     git push -f
+}
+
+amend() {
+    git commit --amend --no-edit
+}
+
+fpush() {
+    git push -f
+}
+
+adda() {
+    git add -A
+}
+
+addu() {
+    git add -u
 }
 
 alias changedfiles='git diff --name-only HEAD~1'
@@ -55,13 +71,20 @@ utiledit() {
 alias cls='clear'
 
 github_create_repo() {
-    local ARGS=""
-    if [ "$2" == "" ]; then echo "Usage: github_create_repo [username] [reponame] <oneTimeCode>"; fi
-    if [ "$3" != "" ]; then ARGS="-H "\'"X-GitHub-OTP: $3"\'; fi
+    if [ "$2" == "" ]; then
+        echo "Usage: github_create_repo [username] [reponame] <oneTimeCode>" && return 1
+    fi
+    if [ "$3" != "" ]; then
+        ARG1=-H "X-GitHub-OTP: $3"
+    fi
+    ARG2=-d "{\"name\":\"$2\"}"
 
-    curl -u "$1" https://api.github.com/user/repos -d '{"name":"'"$2"'"}' "$ARGS"
+    curl -u "$1" $ARG1 $ARG2 https://api.github.com/user/repos 
 }
 ghcr() {
     github_create_repo "$GITHUB_USERNAME" "$@"
 }
 
+cherry() {
+    git cherry-pick "$@"
+}
