@@ -89,3 +89,15 @@ cherry() {
     git cherry-pick "$@"
 }
 
+commit() {
+    git commit -m "$@"
+}
+
+commend() {
+    git commit --amend -m "$@"
+}
+
+h() {
+    history | grep --color=always -E "$@" | less -r
+}
+
