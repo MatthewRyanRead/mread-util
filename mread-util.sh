@@ -98,6 +98,10 @@ commend() {
 }
 
 h() {
-    history | grep --color=always -E "$@" | less -r
+    if [ "$1" == "" ]; then
+        history | tail -r | less
+    else
+        history | grep --color=always -E "$@" | tail -r | less -r
+    fi
 }
 
