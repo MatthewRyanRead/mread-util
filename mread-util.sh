@@ -23,9 +23,7 @@ addcert() {
 }
 
 rebase() {
-    local i='-i'
-    if [ "$1" == "+i" ]; then i=''; fi
-    git fetch && git rebase "${@:2}" $i origin/master
+    git fetch && git rebase "$@" origin/master
 }
 
 crunch() {
@@ -82,7 +80,7 @@ github_create_repo() {
     curl -u "$1" $ARG1 $ARG2 https://api.github.com/user/repos 
 }
 ghcr() {
-    github_create_repo "$GITHUB_USERNAME" "$@"
+    github_create_repo "$GITHUB_USERNAME" $(basename "$PWD") "$@"
 }
 
 cherry() {
@@ -90,11 +88,11 @@ cherry() {
 }
 
 commit() {
-    git commit -m "$@"
+    git add -u && git commit -m "$@"
 }
 
 commend() {
-    git commit --amend -m "$@"
+    git add -u && git commit --amend -m "$@"
 }
 
 h() {
