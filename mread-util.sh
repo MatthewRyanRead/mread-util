@@ -34,6 +34,8 @@ crunch() {
     git push -f
 }
 
+alias g='git'
+
 amend() {
     git commit --amend --no-edit
 }
