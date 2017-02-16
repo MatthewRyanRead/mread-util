@@ -3,6 +3,7 @@ gripeb() {
     grep --color=always -rIE --exclude-dir=\.git "$@" . | less -r ;
 }
 
+alias grip='grep -i'
 alias gripe='gripeb 2>/dev/null'
 alias igripe='gripe -i'
 alias jgripe='gripe --include \*.java'
