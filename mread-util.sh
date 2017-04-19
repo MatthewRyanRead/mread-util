@@ -13,12 +13,6 @@ alias jsigripe='jsgripe -i'
 alias sqlgripe='gripe --include \*.sql'
 alias sqligripe='sqlgripe -i'
 
-testgripe() {
-    grep -rIE "(Failure|Error)s: [^0]" "$@" | while read -r line ; do
-        cat $(echo "$line" | awk -F':' '{print $1}') | less
-    done
-}
-
 addcert() {
     certutil -d sql:"$HOME"/.pki/nssdb -A -t P -n "$1" -i "$1"
 }
