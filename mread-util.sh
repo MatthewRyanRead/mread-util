@@ -100,3 +100,8 @@ h() {
     fi
 }
 
+alias dedupe='uniq'
+unique() {
+    sort | uniq
+}
+
