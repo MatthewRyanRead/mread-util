@@ -105,3 +105,5 @@ unique() {
     sort | uniq
 }
 
+alias fulldiff='git diff-index --binary'
+
