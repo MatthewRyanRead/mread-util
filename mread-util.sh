@@ -107,6 +107,11 @@ unique() {
 
 alias fulldiff='git diff-index --binary'
 
+fame() {
+    find . -name $1
+}
+
 vind() {
     vi $(find . -name $1)
 }
+
