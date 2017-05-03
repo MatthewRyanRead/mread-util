@@ -32,7 +32,11 @@ crunch() {
 alias g='git'
 
 amend() {
-    git commit --amend --no-edit
+    if [ "$1" == "" ]; then
+        git commit --amend --no-edit
+    else
+        git commit --amend -m $1
+    fi
 }
 
 fpush() {
