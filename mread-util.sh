@@ -94,7 +94,7 @@ commend() {
 
 h() {
     if [ "$1" == "" ]; then
-        history | grep --color=always -P '^[\s]*[0-9]+' | tail -r | less -r
+        history | grep --color=always -P '^[\s0-9]+' | tail -r | less -r
     else
         history | grep --color=always -E "$@" | tail -r | less -r
     fi
