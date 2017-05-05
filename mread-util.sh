@@ -116,6 +116,6 @@ fame() {
 }
 
 vind() {
-    vi $(find . -name $1)
+    find . -name $1 -exec vim {} \;
 }
 
