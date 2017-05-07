@@ -68,6 +68,7 @@ utiledit() {
 }
 
 alias cls='clear'
+alias where='which'
 
 github_create_repo() {
     if [ "$2" == "" ]; then
