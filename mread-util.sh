@@ -8,7 +8,7 @@ alias gripe='gripeb 2>/dev/null'
 alias igripe='gripe -i'
 alias jgripe='gripe --include \*.java'
 alias jigripe='jgripe -i'
-alias jsgripe='gripe --include \*.js --include \*.mustache --exclude *.map.js --exclude moment.js --exclude-dir node_modules --exclude bundle.js'
+alias jsgripe='gripe --include \*.js --include \*.mustache --exclude *.map.js --exclude moment.js --exclude-dir node_modules --exclude bundle.js --exclude *.min.js'
 alias jsigripe='jsgripe -i'
 alias sqlgripe='gripe --include \*.sql'
 alias sqligripe='sqlgripe -i'
@@ -71,18 +71,29 @@ alias cls='clear'
 alias where='which'
 
 github_create_repo() {
+    ARG1=''
     if [ "$2" == "" ]; then
-        echo "Usage: github_create_repo [username] [reponame] <oneTimeCode>" && return 1
+        echo "Usage: github_create_repo [username] [reponame] <oneTimeCode>"
+        return 1
     fi
     if [ "$3" != "" ]; then
-        ARG1=-H "X-GitHub-OTP: $3"
+        ARG1="X-GitHub-OTP: $3"
     fi
-    ARG2=-d "{\"name\":\"$2\"}"
+    ARG2="{\"name\":\"$2\"}"
 
-    curl -u "$1" $ARG1 $ARG2 https://api.github.com/user/repos 
+    curl -u $1 -H "$ARG1" -d $ARG2 https://api.github.com/user/repos 
 }
 ghcr() {
-    github_create_repo "$GITHUB_USERNAME" $(basename "$PWD") "$@"
+    set -e
+    REPONAME=$(basename "$PWD")
+    github_create_repo $GITHUB_USERNAME $REPONAME $@
+    touch README.md
+    git init
+    git add README.md
+    git commit -m 'first commit'
+    git remote add origin git@github.com:$GITHUB_USERNAME/$REPONAME.git
+    git push -u origin master
+    set +e
 }
 
 cherry() {
