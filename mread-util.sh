@@ -53,6 +53,11 @@ addu() {
 
 alias changedfiles='git diff --name-only HEAD~1'
 
+# remove all local branches except for the current one + master
+gpurge() {
+    git branch -l --list | grep -v master | grep -v $(git rev-parse --abbrev-ref HEAD) | while read line; do git branch -D $line; done
+}
+
 killname() {
     sudo ps aux | grep -i "$1" | grep -v grep | awk '{print $2}' | while read line; do sudo kill -9 "$line"; done
 }
