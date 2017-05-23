@@ -55,7 +55,7 @@ alias changedfiles='git diff --name-only HEAD~1'
 
 # remove all local branches except for the current one + master
 gpurge() {
-    git branch -l --list | grep -v master | grep -v $(git rev-parse --abbrev-ref HEAD) | while read line; do git branch -D $line; done
+    git branch -l --list | grep -v '^\*' | grep -oE '[^ ]+' | grep -vE '^master$' | while read line; do git branch -D $line; done
 }
 
 killname() {
