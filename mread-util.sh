@@ -8,7 +8,7 @@ alias gripe='gripeb 2>/dev/null'
 alias igripe='gripe -i'
 alias jgripe='gripe --include \*.java'
 alias jigripe='jgripe -i'
-alias jsgripe='gripe --include \*.js --include \*.mustache --exclude *.map.js --exclude moment.js --exclude bundle.js --exclude *.min.js --exclude main.js --exclude templates.js --exclude-dir node_modules'
+alias jsgripe='gripe --include \*.js --include \*.mustache --exclude *.map.js --exclude moment.js --exclude bundle.js --exclude *.min.js --exclude main.js --exclude templates.js --exclude-dir node_modules --exclude-dir testingData'
 alias jsigripe='jsgripe -i'
 alias sqlgripe='gripe --include \*.sql'
 alias sqligripe='sqlgripe -i'
@@ -136,3 +136,7 @@ vind() {
     find . -name $1 -exec vim {} \;
 }
 
+# TODO generalize this for other OSes
+ij() {
+    open -a IntelliJ\ IDEA.app
+}
