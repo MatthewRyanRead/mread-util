@@ -138,5 +138,5 @@ vind() {
 
 # TODO generalize this for other OSes
 ij() {
-    open -a IntelliJ\ IDEA.app
+    open -a IntelliJ\ IDEA.app "$@"
 }
