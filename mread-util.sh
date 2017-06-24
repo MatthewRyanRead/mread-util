@@ -1,6 +1,6 @@
 gripeb() {
-    echo grep --color=always -rIE --exclude-dir=\.git "$@" . ;
-    grep --color=always -rIE --exclude-dir=\.git "$@" . | less -r ;
+    echo grep --color=always -rIE --exclude-dir=\.git "$@" .
+    grep --color=always -rIE --exclude-dir=\.git "$@" . | less -r
 }
 
 alias grip='grep -i'
@@ -10,7 +10,7 @@ alias jgripe='gripe --include \*.java'
 alias jigripe='jgripe -i'
 alias jsgripe='gripe --include \*.js --include \*.mustache --exclude moment.js --exclude bundle.js --exclude \*.\*.js --exclude \*-min.js --exclude main.js --exclude templates.js --exclude-dir node_modules --exclude-dir testingData --exclude-dir packages'
 alias jsigripe='jsgripe -i'
-alias sqlgripe='gripe --include \*.sql'
+alias sqlgripe='gripe --include \*.sql --exclude-dir target'
 alias sqligripe='sqlgripe -i'
 
 addcert() {
@@ -106,7 +106,7 @@ cherry() {
 }
 
 commit() {
-    git add -u && git commit -m "$@"
+    git commit -m "$@"
 }
 
 commend() {
@@ -140,3 +140,8 @@ vind() {
 ij() {
     open -a IntelliJ\ IDEA.app "$@"
 }
+
+finj() {
+    ij $(fame "$@")
+}
+
