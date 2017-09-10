@@ -35,7 +35,7 @@ amend() {
     if [ "$1" == "" ]; then
         git commit --amend --no-edit
     else
-        git commit --amend -m $1
+        git commit --amend -m "$@"
     fi
 }
 
@@ -128,6 +128,8 @@ unique() {
 
 alias fulldiff='git diff-index --binary'
 
+alias master='git checkout master && git pull'
+
 fame() {
     find . -name $1
 }
@@ -143,5 +145,9 @@ ij() {
 
 finj() {
     ij $(fame "$@")
+}
+
+revert() {
+    git checkout HEAD~1 "$@"
 }
 
