@@ -1,5 +1,5 @@
 gripeb() {
-    echo grep --color=always -rIE --exclude-dir=\.git "$@" .
+    echo grep --color=always -rIE --exclude-dir=\.git "$@" . >&2
     grep --color=always -rIE --exclude-dir=\.git "$@" . | less -r
 }
 
@@ -151,3 +151,6 @@ revert() {
     git checkout HEAD~1 "$@"
 }
 
+rename() {
+    mv $1 $(dirname $1)/$2
+}
