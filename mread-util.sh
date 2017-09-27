@@ -154,3 +154,16 @@ revert() {
 rename() {
     mv $1 $(dirname $1)/$2
 }
+
+branch() {
+    git checkout -b "$@"
+}
+
+co() {
+    git checkout "$@"
+}
+
+hdiff() {
+    git diff HEAD
+}
+
