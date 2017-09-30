@@ -167,3 +167,4 @@ hdiff() {
     git diff HEAD
 }
 
+alias tracert='traceroute'
