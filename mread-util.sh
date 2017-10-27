@@ -26,7 +26,7 @@ crunch() {
     git commit --amend --no-edit &&
     git fetch &&
     git rebase origin/master &&
-    git push -f
+    git push --force-with-lease
 }
 
 alias g='git'
@@ -165,6 +165,11 @@ co() {
 
 hdiff() {
     git diff HEAD
+}
+
+pruneall() {
+    git reflog expire --expire=now --all
+    git gc --aggressive --prune=now
 }
 
 alias tracert='traceroute'
