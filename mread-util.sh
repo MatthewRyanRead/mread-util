@@ -172,4 +172,12 @@ pruneall() {
     git gc --aggressive --prune=now
 }
 
+fetch() {
+    git fetch
+}
+
+resetmaster() {
+    git reset --hard origin/master
+}
+
 alias tracert='traceroute'
