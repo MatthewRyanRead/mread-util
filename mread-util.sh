@@ -128,7 +128,7 @@ unique() {
 
 alias fulldiff='git diff-index --binary'
 
-alias master='git checkout master && git pull'
+alias master='git checkout master && git fetch && git pull'
 
 fame() {
     find . -name $1
