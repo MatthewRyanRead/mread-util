@@ -180,4 +180,6 @@ resetmaster() {
     git reset --hard origin/master
 }
 
+alias blist='git branch -l --list'
+
 alias tracert='traceroute'
