@@ -1,3 +1,25 @@
+# This script should be sourced from your bash_profile!
+# Edit this variable if you cloned this somewhere other than ~/Developer:
+
+local BASE_PATH='~/Developer/mread-util'
+
+# Required shell variables:
+# - GITHUB_USERNAME
+
+###
+
+utiledit() {
+    $EDITOR $BASE_PATH/mread-util.sh
+    source $BASE_PATH/mread-util.sh
+}
+
+bashedit() {
+    $EDITOR ~/.bash_profile
+    source ~/.bash_profile
+}
+
+### GREP ###
+
 gripeb() {
     echo grep --color=always -rIE --exclude-dir=\.git "$@" . >&2
     grep --color=always -rIE --exclude-dir=\.git "$@" . | less -r
@@ -13,93 +35,18 @@ alias jsigripe='jsgripe -i'
 alias sqlgripe='gripe --include \*.sql --exclude-dir target'
 alias sqligripe='sqlgripe -i'
 
-addcert() {
-    certutil -d sql:"$HOME"/.pki/nssdb -A -t P -n "$1" -i "$1"
-}
-
-rebase() {
-    git fetch && git rebase "$@" origin/master
-}
-
-crunch() {
-    git add -u &&
-    git commit --amend --no-edit &&
-    git fetch &&
-    git rebase origin/master &&
-    git push --force-with-lease
-}
+### GIT ###
 
 alias g='git'
 
-amend() {
-    if [ "$1" == "" ]; then
-        git commit --amend --no-edit
-    else
-        git commit --amend -m "$@"
-    fi
-}
+alias fetch='g fetch'
 
-fpush() {
-    git push --force-with-lease
-}
+alias adda='g add -A'
+alias addu='g add -u'
 
-adda() {
-    git add -A
-}
+alias fpush='g push --force-with-lease'
 
-addu() {
-    git add -u
-}
-
-alias changedfiles='git diff --name-only HEAD~1'
-
-# remove all local branches except for the current one + master
-gpurge() {
-    git branch -l --list | grep -v '^\*' | grep -oE '[^ ]+' | grep -vE '^master$' | while read line; do git branch -D $line; done
-}
-
-killname() {
-    sudo ps aux | grep -i "$1" | grep -v grep | awk '{print $2}' | while read line; do sudo kill -9 "$line"; done
-}
-
-bashedit() {
-    vi ~/.bash_profile
-    source ~/.bash_profile
-}
-
-utiledit() {
-    vi ~/Developer/mread-util/mread-util.sh
-    source ~/Developer/mread-util/mread-util.sh
-}
-
-alias cls='clear'
-alias where='which'
-
-github_create_repo() {
-    ARG1=''
-    if [ "$2" == "" ]; then
-        echo "Usage: github_create_repo [username] [reponame] <oneTimeCode>"
-        return 1
-    fi
-    if [ "$3" != "" ]; then
-        ARG1="X-GitHub-OTP: $3"
-    fi
-    ARG2="{\"name\":\"$2\"}"
-
-    curl -u $1 -H "$ARG1" -d $ARG2 https://api.github.com/user/repos 
-}
-ghcr() {
-    set -e
-    REPONAME=$(basename "$PWD")
-    github_create_repo $GITHUB_USERNAME $REPONAME $@
-    touch README.md
-    git init
-    git add README.md
-    git commit -m 'first commit'
-    git remote add origin git@github.com:$GITHUB_USERNAME/$REPONAME.git
-    git push -u origin master
-    set +e
-}
+alias changedfiles='g diff --name-only HEAD~1'
 
 cherry() {
     git cherry-pick "$@"
@@ -109,50 +56,33 @@ commit() {
     git commit -m "$@"
 }
 
-commend() {
-    git add -u && git commit --amend -m "$@"
+rebase() {
+    fetch && g rebase "$@" origin/master
 }
 
-h() {
+amend() {
     if [ "$1" == "" ]; then
-        history | grep --color=always -P '^[\s0-9]+' | tail -r | less -r
+        g commit --amend --no-edit
     else
-        history | grep --color=always -E "$@" | tail -r | less -r
+        g commit --amend -m "$@"
     fi
 }
 
-alias dedupe='uniq'
-unique() {
-    sort | uniq
+alias commend='addu && amend'
+
+alias crunch='addu && amend && fetch && rebase && fpush'
+
+# remove all local branches except for the current one + master
+gpurge() {
+    git branch -l --list | grep -v '^\*' | grep -oE '[^ ]+' | grep -vE '^master$' | while read line; do git branch -D $line; done
 }
 
 alias fulldiff='git diff-index --binary'
 
 alias master='git checkout master && git fetch && git pull'
 
-fame() {
-    find . -name $1
-}
-
-vind() {
-    find . -name $1 -exec vim {} \;
-}
-
-# TODO generalize this for other OSes
-ij() {
-    open -a IntelliJ\ IDEA.app "$@"
-}
-
-finj() {
-    ij $(fame "$@")
-}
-
 revert() {
     git checkout HEAD~1 "$@"
-}
-
-rename() {
-    mv $1 $(dirname $1)/$2
 }
 
 branch() {
@@ -172,14 +102,100 @@ pruneall() {
     git gc --aggressive --prune=now
 }
 
-fetch() {
-    git fetch
-}
-
 resetmaster() {
     git reset --hard origin/master
 }
 
 alias blist='git branch -l --list'
 
+### GITHUB ###
+
+github_create_repo() {
+    ARG1=''
+    if [ "$2" == "" ]; then
+        echo "Usage: github_create_repo [username] [reponame] <oneTimeCode>"
+        return 1
+    fi
+    if [ "$3" != "" ]; then
+        ARG1="X-GitHub-OTP: $3"
+    fi
+    ARG2="{\"name\":\"$2\"}"
+
+    curl -u $1 -H "$ARG1" -d $ARG2 https://api.github.com/user/repos 
+}
+
+ghcr() {
+    set -e
+    REPONAME=$(basename "$PWD")
+    github_create_repo $GITHUB_USERNAME $REPONAME $@
+    touch README.md
+    git init
+    git add README.md
+    git commit -m 'first commit'
+    git remote add origin git@github.com:$GITHUB_USERNAME/$REPONAME.git
+    git push -u origin master
+    set +e
+}
+
+### DOS COMPAT ###
+
+alias cls='clear'
+alias where='which'
 alias tracert='traceroute'
+
+### SHELL/UTIL HELPERS ###
+
+killname() {
+    sudo ps aux |
+        grep -i "$1" |
+        grep -v grep |
+        awk '{print $2}' |
+        while read line; do
+            sudo kill -9 "$line";
+        done
+}
+
+# a better version of 'history'
+h() {
+    if [ "$1" == "" ]; then
+        history | grep --color=always -P '^[\s0-9]+' | tail -r | less -r
+    else
+        history | grep --color=always -E "$@" | tail -r | less -r
+    fi
+}
+
+# 'uniq' doesn't actually make things unique....
+alias dedupe='uniq'
+alias unique='sort | uniq'
+
+alias fame='find . -name'
+
+# so you don't have to CD into the path or re-type it
+rename() {
+    mv $1 $(dirname $1)/$2
+}
+
+### EDITING ###
+
+# find and edit in one go
+alias vind='fame -exec vim {} \;'
+
+# TODO generalize this for other OSes
+alias ij='open -a IntelliJ\ IDEA.app'
+
+finj() {
+    ij $(fame "$@")
+}
+
+### CERTS ###
+
+# import a cert
+addcert() {
+    if [ "$(uname)" == "Darwin" ]; then
+        sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "$@"
+    else
+        certutil -d sql:"$HOME"/.pki/nssdb -A -t P -n "$1" -i "$1"
+    fi
+}
+
+alias describecert='openssl x509 -text -in'
