@@ -44,7 +44,8 @@ alias fetch='g fetch'
 alias adda='g add -A'
 alias addu='g add -u'
 
-alias fpush='g push --force-with-lease'
+alias pushf='g push --force-with-lease'
+alias pushu='g push -u'
 
 alias changedfiles='g diff --name-only HEAD~1'
 
@@ -70,7 +71,7 @@ amend() {
 
 alias commend='addu && amend'
 
-alias crunch='addu && amend && fetch && rebase && fpush'
+alias crunch='addu && amend && fetch && rebase && pushf'
 
 # remove all local branches except for the current one + master
 gpurge() {
@@ -129,11 +130,11 @@ ghcr() {
     REPONAME=$(basename "$PWD")
     github_create_repo $GITHUB_USERNAME $REPONAME $@
     touch README.md
-    git init
-    git add README.md
-    git commit -m 'first commit'
-    git remote add origin git@github.com:$GITHUB_USERNAME/$REPONAME.git
-    git push -u origin master
+    g init
+    g add README.md
+    commit 'first commit'
+    g remote add origin git@github.com:$GITHUB_USERNAME/$REPONAME.git
+    g push -u origin master
     set +e
 }
 
