@@ -38,6 +38,8 @@ alias sqligripe='sqlgripe -i'
 
 alias g='git'
 
+alias status='g status'
+
 alias fetch='g fetch'
 
 alias adda='g add -A'
@@ -64,7 +66,8 @@ alias cherry='g cherry-pick'
 alias commit='g commit -m'
 alias admit='addu && commit'
 
-alias resetmaster='g reset --hard origin/master'
+alias resetmaster='fetch && g reset --hard origin/master'
+alias latest="fetch && g reset --hard origin/$(g rev-parse --abbrev-ref HEAD)"
 
 rebase() {
     fetch && g rebase "$@" origin/master
