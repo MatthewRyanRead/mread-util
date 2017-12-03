@@ -1,7 +1,7 @@
 # This script should be sourced from your bash_profile!
 # Edit this variable if you cloned this somewhere other than ~/Developer:
 
-local BASE_PATH='~/Developer/mread-util'
+export MREAD_UTIL_BASE_PATH='/Users/mread/Developer/mread-util'
 
 # Required shell variables:
 # - GITHUB_USERNAME
@@ -9,8 +9,8 @@ local BASE_PATH='~/Developer/mread-util'
 ###
 
 utiledit() {
-    $EDITOR $BASE_PATH/mread-util.sh
-    source $BASE_PATH/mread-util.sh
+    $EDITOR $MREAD_UTIL_BASE_PATH/mread-util.sh
+    source $MREAD_UTIL_BASE_PATH/mread-util.sh
 }
 
 bashedit() {
@@ -44,6 +44,7 @@ alias fetch='g fetch'
 alias adda='g add -A'
 alias addu='g add -u'
 
+alias push='g push'
 alias pushf='g push --force-with-lease'
 alias pushu='g push -u'
 
@@ -56,6 +57,8 @@ cherry() {
 commit() {
     git commit -m "$@"
 }
+
+alias admit='addu && commit'
 
 rebase() {
     fetch && g rebase "$@" origin/master
