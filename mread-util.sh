@@ -1,10 +1,9 @@
 # This script should be sourced from your bash_profile!
+# Required shell variables (you should set these here or in your bash profile):
+# - GITHUB_USERNAME
 # Edit this variable if you cloned this somewhere other than ~/Developer:
 
 export MREAD_UTIL_BASE_PATH="$HOME/Developer/mread-util"
-
-# Required shell variables:
-# - GITHUB_USERNAME
 
 ###
 
@@ -48,17 +47,24 @@ alias push='g push'
 alias pushf='g push --force-with-lease'
 alias pushu='g push -u'
 
+alias co='g checkout'
+alias blist='g branch -l --list'
+
+alias hdiff='g diff HEAD'
+alias fulldiff='g diff-index --binary'
+
 alias changedfiles='g diff --name-only HEAD~1'
 
-cherry() {
-    git cherry-pick "$@"
-}
+alias master='co master && fetch && g pull'
+alias revert='co HEAD~1'
+alias branch='co -b'
 
-commit() {
-    git commit -m "$@"
-}
+alias cherry='g cherry-pick'
 
+alias commit='g commit -m'
 alias admit='addu && commit'
+
+alias resetmaster='g reset --hard origin/master'
 
 rebase() {
     fetch && g rebase "$@" origin/master
@@ -68,7 +74,7 @@ amend() {
     if [ "$1" == "" ]; then
         g commit --amend --no-edit
     else
-        g commit --amend -m "$@"
+        commit -m "$@" --amend
     fi
 }
 
@@ -78,39 +84,13 @@ alias crunch='addu && amend && fetch && rebase && pushf'
 
 # remove all local branches except for the current one + master
 gpurge() {
-    git branch -l --list | grep -v '^\*' | grep -oE '[^ ]+' | grep -vE '^master$' | while read line; do git branch -D $line; done
-}
-
-alias fulldiff='git diff-index --binary'
-
-alias master='git checkout master && git fetch && git pull'
-
-revert() {
-    git checkout HEAD~1 "$@"
-}
-
-branch() {
-    git checkout -b "$@"
-}
-
-co() {
-    git checkout "$@"
-}
-
-hdiff() {
-    git diff HEAD
+    blist | grep -v '^\*' | grep -oE '[^ ]+' | grep -vE '^master$' | while read line; do g branch -D $line; done
 }
 
 pruneall() {
-    git reflog expire --expire=now --all
-    git gc --aggressive --prune=now
+    g reflog expire --expire=now --all
+    g gc --aggressive --prune=now
 }
-
-resetmaster() {
-    git reset --hard origin/master
-}
-
-alias blist='git branch -l --list'
 
 ### GITHUB ###
 
