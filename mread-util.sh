@@ -1,7 +1,7 @@
 # This script should be sourced from your bash_profile!
 # Edit this variable if you cloned this somewhere other than ~/Developer:
 
-export MREAD_UTIL_BASE_PATH='/Users/mread/Developer/mread-util'
+export MREAD_UTIL_BASE_PATH="$HOME/Developer/mread-util"
 
 # Required shell variables:
 # - GITHUB_USERNAME
