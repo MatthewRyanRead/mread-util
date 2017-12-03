@@ -40,7 +40,7 @@ amend() {
 }
 
 fpush() {
-    git push -f
+    git push --force-with-lease
 }
 
 adda() {
