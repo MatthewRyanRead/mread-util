@@ -180,8 +180,14 @@ rename() {
 # find and edit in one go
 alias vind='fame -exec vim {} \;'
 
-# TODO generalize this for other OSes
-alias ij='open -a IntelliJ\ IDEA.app'
+ij() {
+    if [ "$(uname)" == "Darwin" ]; then
+        open -a IntelliJ\ IDEA.app
+    else
+        # TODO
+        echo 'Not implemented for this OS.'
+    fi
+}
 
 finj() {
     ij $(fame "$@")
