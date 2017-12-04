@@ -95,6 +95,19 @@ pruneall() {
     g gc --aggressive --prune=now
 }
 
+delcommit() {
+    local BRANCH_POINT=$(g reflog show $(g rev-parse --abbrev-ref HEAD) | tail -n 1 | awk '{ print $1 }')
+    local HEAD=$(g rev-parse HEAD)
+
+    g reset --hard $BRANCH_POINT
+
+    g rev-list $BRANCH_POINT...$HEAD | tail -r | while read line; do
+        if [ "$line" != "$1" ]; then
+            cherry $line
+        fi
+    done
+}
+
 ### GITHUB ###
 
 github_create_repo() {
