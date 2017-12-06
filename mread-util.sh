@@ -77,7 +77,7 @@ amend() {
     if [ "$1" == "" ]; then
         g commit --amend --no-edit
     else
-        commit -m "$@" --amend
+        commit "$@" --amend
     fi
 }
 
