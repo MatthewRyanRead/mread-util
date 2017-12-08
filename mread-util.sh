@@ -59,7 +59,7 @@ alias changedfiles='g diff --name-only HEAD~1'
 
 alias master='co master && fetch && g pull'
 alias revert='co HEAD~1'
-alias branch='co -b'
+alias newb='co -b'
 
 alias cherry='g cherry-pick'
 
