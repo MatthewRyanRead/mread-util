@@ -85,6 +85,10 @@ alias commend='addu && amend'
 
 alias crunch='addu && amend && fetch && rebase && pushf'
 
+hascommit() {
+    g log $1 | grep $2
+}
+
 # remove all local branches except for the current one + master
 gpurge() {
     blist | grep -v '^\*' | grep -oE '[^ ]+' | grep -vE '^master$' | while read line; do g branch -D $line; done
@@ -169,6 +173,8 @@ alias dedupe='uniq'
 alias unique='sort | uniq'
 
 alias fame='find . -name'
+
+alias filecount='ls -l | wc -l'
 
 # so you don't have to CD into the path or re-type it
 rename() {
