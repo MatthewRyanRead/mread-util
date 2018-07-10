@@ -59,7 +59,6 @@ alias changedfiles='g diff --name-only HEAD~1'
 
 alias master='co master && fetch && g pull'
 alias revert='co HEAD~1'
-alias newb='co -b'
 
 alias cherry='g cherry-pick'
 
@@ -68,6 +67,10 @@ alias admit='addu && commit'
 
 alias resetmaster='fetch && g reset --hard origin/master'
 alias latest='fetch && g reset --hard origin/$(g rev-parse --abbrev-ref HEAD)'
+
+newb() {
+    co -b "$@" && pushu
+}
 
 rebase() {
     fetch && g rebase "$@" origin/master
@@ -181,22 +184,18 @@ rename() {
     mv $1 $(dirname $1)/$2
 }
 
+# basic xargs that works with aliases
+zargs() {
+    while read line; do $1 $line; done
+}
+
 ### EDITING ###
 
 # find and edit in one go
 alias vind='fame -exec vim {} \;'
 
-ij() {
-    if [ "$(uname)" == "Darwin" ]; then
-        open -a IntelliJ\ IDEA.app
-    else
-        # TODO
-        echo 'Not implemented for this OS.'
-    fi
-}
-
 finj() {
-    ij $(fame "$@")
+    idea $(fame "$@")
 }
 
 ### CERTS ###
@@ -211,3 +210,8 @@ addcert() {
 }
 
 alias describecert='openssl x509 -text -in'
+
+### RANDOM ###
+
+alias repeatgif='gifsicle -bl'
+
