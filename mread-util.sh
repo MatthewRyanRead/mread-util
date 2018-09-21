@@ -38,6 +38,8 @@ alias sqligripe='sqlgripe -i'
 
 alias g='git'
 
+alias clone='g clone'
+
 alias status='g status'
 
 alias fetch='g fetch'
@@ -214,4 +216,4 @@ alias describecert='openssl x509 -text -in'
 ### RANDOM ###
 
 alias repeatgif='gifsicle -bl'
-
+alias maven='mvn'
