@@ -216,4 +216,23 @@ alias describecert='openssl x509 -text -in'
 ### RANDOM ###
 
 alias repeatgif='gifsicle -bl'
+
 alias maven='mvn'
+
+pushd() {
+    UNAME=$(uname)
+    if [ "$UNAME" == "Darwin" ] || [ "$UNAME" == "Linux" ]; then
+        command pushd "$@" > /dev/null
+    else
+        command pushd "$@"
+    fi
+}
+
+popd() {
+    UNAME=$(uname)
+    if [ "$UNAME" == "Darwin" ] || [ "$UNAME" == "Linux" ]; then
+        command popd "$@" > /dev/null
+    else
+        command popd "$@"
+    fi
+}
