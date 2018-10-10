@@ -211,6 +211,10 @@ addcert() {
     fi
 }
 
+dlcert() {
+    openssl s_client -showcerts -connect $1:$2 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $1.pem
+}
+
 alias describecert='openssl x509 -text -in'
 
 ### RANDOM ###
