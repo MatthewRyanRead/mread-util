@@ -240,3 +240,9 @@ popd() {
         command popd "$@"
     fi
 }
+
+repeat() {
+    for suffix in "${@:2}"; do
+        eval "$1""$suffix"
+    done
+}
