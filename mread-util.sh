@@ -130,20 +130,27 @@ github_create_repo() {
     fi
     ARG2="{\"name\":\"$2\"}"
 
-    curl -u $1 -H "$ARG1" -d $ARG2 https://api.github.com/user/repos 
+    http_code=$(curl -u $1 -H "$ARG1" -d $ARG2 https://api.github.com/user/repos -s -o /dev/null -w "%{http_code}")
+    if [ $http_code -ge 300 ] || [ $http_code -lt 200 ]; then
+        echo "Error code: $http_code"
+        return $http_code
+    fi
+    return 0
 }
 
 ghcr() {
-    set -e
-    REPONAME=$(basename "$PWD")
-    github_create_repo $GITHUB_USERNAME $REPONAME $@
-    touch README.md
+    reponame=$(basename "$PWD")
+    github_create_repo $GITHUB_USERNAME $reponame $@
+    exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        return $exit_code
+    fi
+    echo $reponame > README.md
     g init
     g add README.md
     commit 'first commit'
-    g remote add origin git@github.com:$GITHUB_USERNAME/$REPONAME.git
+    g remote add origin git@github.com:$GITHUB_USERNAME/$reponame.git
     g push -u origin master
-    set +e
 }
 
 ### DOS COMPAT ###
