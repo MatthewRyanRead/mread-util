@@ -161,16 +161,6 @@ alias tracert='traceroute'
 
 ### SHELL/UTIL HELPERS ###
 
-killname() {
-    sudo ps aux |
-        grep -i "$1" |
-        grep -v grep |
-        awk '{print $2}' |
-        while read line; do
-            sudo kill -9 "$line";
-        done
-}
-
 # a better version of 'history'
 h() {
     if [ "$1" == "" ]; then
