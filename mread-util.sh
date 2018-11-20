@@ -104,8 +104,10 @@ pruneall() {
     g gc --aggressive --prune=now
 }
 
+alias branchpoint="g log -g --pretty=oneline $(g rev-parse --abbrev-ref HEAD) | tail -n 1 | awk '{ print "'$'"1; }'"
+
 delcommit() {
-    local BRANCH_POINT=$(g reflog show $(g rev-parse --abbrev-ref HEAD) | tail -n 1 | awk '{ print $1 }')
+    local BRANCH_POINT=$(branchpoint)
     local HEAD=$(g rev-parse HEAD)
 
     g reset --hard $BRANCH_POINT
@@ -116,6 +118,8 @@ delcommit() {
         fi
     done
 }
+
+alias branchdiff='g diff $(branchpoint)...HEAD'
 
 ### GITHUB ###
 
