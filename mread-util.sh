@@ -247,3 +247,7 @@ repeat() {
         eval "$1""$suffix"
     done
 }
+
+alias upgrate='sudo apt update && sudo apt upgrade'
+
+alias restartnow='sudo shutdown -r -t 0'
