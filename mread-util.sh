@@ -189,7 +189,7 @@ rename() {
 
 # basic xargs that works with aliases
 zargs() {
-    while read line; do $1 $line; done
+    while read line; do $1 $line "${@:2}"; done
 }
 
 ### EDITING ###
