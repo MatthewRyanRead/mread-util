@@ -121,6 +121,8 @@ delcommit() {
 
 alias branchdiff='g diff $(branchpoint)...HEAD'
 
+alias rbcont='addu && g rebase --continue'
+
 ### GITHUB ###
 
 github_create_repo() {
