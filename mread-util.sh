@@ -220,11 +220,15 @@ dlcert() {
 
 alias describecert='openssl x509 -text -in'
 
+### MAVEN ###
+
+alias maven='mvn'
+alias mvnci='mvn clean install -DskipTests -DskipITs'
+alias mvnin='mvn install -DskipTests -DskipITs'
+
 ### RANDOM ###
 
 alias repeatgif='gifsicle -bl'
-
-alias maven='mvn'
 
 pushd() {
     UNAME=$(uname)
