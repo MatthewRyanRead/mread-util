@@ -134,7 +134,7 @@ localbranch() {
 ### GITHUB ###
 
 github_create_repo() {
-    ARG1=''
+    local ARG1=''
     if [ "$2" == "" ]; then
         echo "Usage: github_create_repo [username] [reponame] <oneTimeCode>"
         return 1
@@ -142,7 +142,7 @@ github_create_repo() {
     if [ "$3" != "" ]; then
         ARG1="X-GitHub-OTP: $3"
     fi
-    ARG2="{\"name\":\"$2\"}"
+    local ARG2="{\"name\":\"$2\"}"
 
     http_code=$(curl -u $1 -H "$ARG1" -d $ARG2 https://api.github.com/user/repos -s -o /dev/null -w "%{http_code}")
     if [ $http_code -ge 300 ] || [ $http_code -lt 200 ]; then
@@ -153,9 +153,9 @@ github_create_repo() {
 }
 
 ghcr() {
-    reponame=$(basename "$PWD")
+    local reponame=$(basename "$PWD")
     github_create_repo $GITHUB_USERNAME $reponame $@
-    exit_code=$?
+    local exit_code=$?
     if [ $exit_code -ne 0 ]; then
         return $exit_code
     fi
@@ -239,7 +239,7 @@ alias mvnin='mvn install -DskipTests -DskipITs'
 alias repeatgif='gifsicle -bl'
 
 pushd() {
-    UNAME=$(uname)
+    local UNAME=$(uname)
     if [ "$UNAME" == "Darwin" ] || [ "$UNAME" == "Linux" ]; then
         command pushd "$@" > /dev/null
     else
@@ -248,7 +248,7 @@ pushd() {
 }
 
 popd() {
-    UNAME=$(uname)
+    local UNAME=$(uname)
     if [ "$UNAME" == "Darwin" ] || [ "$UNAME" == "Linux" ]; then
         command popd "$@" > /dev/null
     else
