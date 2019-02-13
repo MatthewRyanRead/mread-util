@@ -13,8 +13,7 @@ WHITE=$(tput setaf 7)
 RESET=$(tput sgr0)
 
 gitinfo() {
-    branch=$(localbranch)
-    if [ ! -z $branch ]; then
+    if [ -d .git ]; then
         echo "$BOLD$YELLOW[$RED$(localbranch) $YELLOW: $RED$(remotebranch)$YELLOW]$RESET "
     fi
 }
