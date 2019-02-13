@@ -123,6 +123,14 @@ alias branchdiff='g diff $(branchpoint)...HEAD'
 
 alias rbcont='addu && g rebase --continue'
 
+remotebranch() {
+    g symbolic-ref HEAD 2> /dev/null | grep -oE '[^/]+$'
+}
+
+localbranch() {
+    g branch 2> /dev/null | grep -E '^\*' | awk '{ print $2; }'
+}
+
 ### GITHUB ###
 
 github_create_repo() {
