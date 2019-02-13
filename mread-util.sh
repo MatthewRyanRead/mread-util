@@ -124,7 +124,7 @@ alias branchdiff='g diff $(branchpoint)...HEAD'
 alias rbcont='addu && g rebase --continue'
 
 remotebranch() {
-    g symbolic-ref HEAD 2> /dev/null | grep -oE '[^/]+$'
+    git rev-parse --abbrev-ref --symbolic-full-name @{u} 2> /dev/null | grep -oE '[^/]+$'
 }
 
 localbranch() {
