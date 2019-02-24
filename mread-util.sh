@@ -112,7 +112,7 @@ delcommit() {
 
     g reset --hard $BRANCH_POINT
 
-    g rev-list $BRANCH_POINT...$HEAD | tail -r | while read line; do
+    g rev-list $BRANCH_POINT...$HEAD | tac | while read line; do
         if [ "$line" != "$1" ]; then
             cherry $line
         fi
@@ -175,12 +175,16 @@ alias tracert='traceroute'
 
 ### SHELL/UTIL HELPERS ###
 
+if [ -z $(which tac) ]; then
+    alias tac='tail -r'
+fi
+
 # a better version of 'history'
 h() {
     if [ "$1" == "" ]; then
-        history | grep --color=always -P '^[\s0-9]+' | tail -r | less -r
+        history | grep --color=always -P '^[\s0-9]+' | tac | less -r
     else
-        history | grep --color=always -E "$@" | tail -r | less -r
+        history | grep --color=always -E "$@" | tac | less -r
     fi
 }
 
