@@ -1,3 +1,8 @@
+export EDITOR=vim
+export GITHUB_USERNAME=MatthewRyanRead
+
+source ~/Developer/mread-util/mread-util.sh
+
 # fancy terminal with git branch info
 # format (not including coloring):
 # user@computer path/to/current [local-branch-name : remote-branch-name] $
