@@ -3,6 +3,10 @@ export GITHUB_USERNAME=MatthewRyanRead
 
 source ~/Developer/mread-util/mread-util.sh
 
+export HISTSIZE=100000
+export HISTFILESIZE=1000000
+shopt -s histappend
+
 # fancy terminal with git branch info
 # format (not including coloring):
 # user@computer path/to/current [local-branch-name : remote-branch-name] $
