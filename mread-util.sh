@@ -68,7 +68,10 @@ alias commit='g commit -m'
 alias admit='addu && commit'
 
 alias resetmaster='fetch && g reset --hard origin/master'
-alias latest='fetch && g reset --hard origin/$(g rev-parse --abbrev-ref HEAD)'
+
+latest() {
+    fetch && g reset --hard origin/$(g rev-parse --abbrev-ref HEAD)
+}
 
 newb() {
     co -b "$@" && pushu
@@ -104,7 +107,9 @@ pruneall() {
     g gc --aggressive --prune=now
 }
 
-alias branchpoint="g log -g --pretty=oneline $(g rev-parse --abbrev-ref HEAD) | tail -n 1 | awk '{ print "'$'"1; }'"
+branchpoint() {
+    g log -g --pretty=oneline $(g rev-parse --abbrev-ref HEAD) | tail -n 1 | awk '{ print "'$'"1; }'
+}
 
 delcommit() {
     local BRANCH_POINT=$(branchpoint)
