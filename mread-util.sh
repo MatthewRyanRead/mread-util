@@ -184,7 +184,8 @@ h() {
     if [ "$1" == "" ]; then
         history | grep --color=always -P '^[\s0-9]+' | tac | less -r
     else
-        history | grep --color=always -E "$@" | tac | less -r
+        local args="$@"
+        history | grep --color=always -E "$args" | tac | less -r
     fi
 }
 
@@ -267,5 +268,6 @@ repeat() {
 }
 
 alias upgrate='sudo apt update && sudo apt upgrade'
+alias inst='sudo apt install'
 
 alias restartnow='sudo shutdown -r -t 0'
