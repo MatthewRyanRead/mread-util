@@ -276,3 +276,11 @@ alias upgrate='sudo apt update && sudo apt upgrade'
 alias inst='sudo apt install'
 
 alias restartnow='sudo shutdown -r -t 0'
+
+mcat() {
+    cat "$@" | more
+}
+
+lcat() {
+    cat "$@" | less
+}
