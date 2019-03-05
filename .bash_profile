@@ -22,15 +22,15 @@ WHITE=$(tput setaf 7)
 RESET=$(tput sgr0)
 
 gitinfo() {
-    local REMOTE_BRANCH=$(remotebranch);
-    local LOCAL_BRANCH=$(localbranch);
-    local BRANCH_INFO="$RED$LOCAL_BRANCH $YELLOW: $RED$REMOTE_BRANCH"
-
-    if [ -z "$REMOTE_BRANCH" ]; then
-        BRANCH_INFO="$RED$(git branch | grep -E '^\*')"
-    fi
-
     if [ -d .git ]; then
+        local REMOTE_BRANCH=$(remotebranch);
+        local LOCAL_BRANCH=$(localbranch);
+        local BRANCH_INFO="$RED$LOCAL_BRANCH $YELLOW: $RED$REMOTE_BRANCH"
+
+        if [ -z "$REMOTE_BRANCH" ]; then
+            BRANCH_INFO="$RED$(git branch | grep -E '^\*')"
+        fi
+
         echo "$BOLD$YELLOW[$BRANCH_INFO$YELLOW]$RESET "
     fi
 }
