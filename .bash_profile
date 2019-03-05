@@ -36,3 +36,5 @@ gitinfo() {
 }
 
 export PS1='\[$BOLD$MAGENTA\]\u\[$RESET\]@\[$BLUE\]\h \[$GREEN\]\w \[$(gitinfo)$RESET\]\[$CYAN\]$\[$RESET\] '
+
+alias dev='cd ~/Developer'
