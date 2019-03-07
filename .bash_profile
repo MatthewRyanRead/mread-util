@@ -7,6 +7,11 @@ export HISTSIZE=100000
 export HISTFILESIZE=1000000
 shopt -s histappend
 
+export JSON='Content-Type: application/json'
+export FORM='Content-Type: application/x-www-form-urlencoded'
+
+alias dev='cd ~/Developer'
+
 # fancy terminal with git branch info
 # format (not including coloring):
 # user@computer path/to/current [local-branch-name : remote-branch-name] $
@@ -36,5 +41,3 @@ gitinfo() {
 }
 
 export PS1='\[$BOLD$MAGENTA\]\u\[$RESET\]@\[$BLUE\]\h \[$GREEN\]\w \[$(gitinfo)$RESET\]\[$CYAN\]$\[$RESET\] '
-
-alias dev='cd ~/Developer'
