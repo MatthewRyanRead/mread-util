@@ -284,3 +284,10 @@ mcat() {
 lcat() {
     cat "$@" | less
 }
+
+detail() {
+    local FPATH=$(which $1)
+    if [ ! -z "$FPATH" ]; then
+        ls -al $FPATH && file $FPATH
+    fi
+}
