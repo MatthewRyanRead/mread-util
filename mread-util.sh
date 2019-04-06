@@ -59,7 +59,7 @@ alias fulldiff='g diff-index --binary'
 
 alias changedfiles='g diff --name-only HEAD~1'
 
-alias master='co master && fetch && g pull'
+alias master='co master && fetch && g reset --hard origin/master'
 alias revert='co HEAD~1'
 
 alias cherry='g cherry-pick'
