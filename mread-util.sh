@@ -291,3 +291,5 @@ detail() {
         ls -al $FPATH && file $FPATH
     fi
 }
+
+alias prettify='python -m json.tool'
