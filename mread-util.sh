@@ -100,6 +100,7 @@ hascommit() {
 # remove all local branches except for the current one + master
 gpurge() {
     blist | grep -v '^\*' | grep -oE '[^ ]+' | grep -vE '^master$' | while read line; do g branch -D $line; done
+    g prune
 }
 
 pruneall() {
