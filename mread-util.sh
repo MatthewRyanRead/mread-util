@@ -20,8 +20,8 @@ bashedit() {
 ### GREP ###
 
 gripeb() {
-    echo grep --color=always -rIE --exclude-dir=\.git "$@" . >&2
-    grep --color=always -rIE --exclude-dir=\.git "$@" . | less -r
+    echo grep --color=auto -rIE --exclude-dir=\.git "$@" . >&2
+    grep --color=auto -rIE --exclude-dir=\.git "$@" . | less -r
 }
 
 alias grip='grep -i'
@@ -188,10 +188,10 @@ fi
 # a better version of 'history'
 h() {
     if [ "$1" == "" ]; then
-        history | grep --color=always -P '^[\s0-9]+' | tac | less -r
+        history | grep --color=auto -P '^[\s0-9]+' | tac | less -r
     else
         local args="$@"
-        history | grep --color=always -E "$args" | tac | less -r
+        history | grep --color=auto -E "$args" | tac | less -r
     fi
 }
 
