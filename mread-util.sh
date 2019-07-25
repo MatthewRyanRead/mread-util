@@ -273,7 +273,7 @@ repeat() {
     done
 }
 
-alias upgrate='sudo apt update && sudo apt upgrade'
+alias upgrate='sudo apt update && sleep 1 && sudo apt upgrade'
 alias inst='sudo apt install'
 
 alias restartnow='sudo shutdown -r -t 0'
