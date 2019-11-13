@@ -173,6 +173,18 @@ ghcr() {
     g push -u origin master
 }
 
+rewrite-all-committers() {
+    local committer_name=$(git config user.name)
+    local committer_mail=$(git config user.email)
+
+    git filter-branch --env-filter "
+        export GIT_COMMITTER_NAME=\"$committer_name\"
+	export GIT_COMMITTER_EMAIL=\"$committer_mail\"
+	export GIT_AUTHOR_NAME=\"$committer_name\"
+	export GIT_AUTHOR_EMAIL=\"$committer_mail\"
+    " --tag-name-filter cat -- --branches --tags
+}
+
 ### DOS COMPAT ###
 
 alias cls='clear'
