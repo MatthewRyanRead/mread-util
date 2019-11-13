@@ -185,6 +185,10 @@ rewrite-all-committers() {
     " --tag-name-filter cat -- --branches --tags
 }
 
+cloneme() {
+    clone git@github.com:$GITHUB_USERNAME/$1
+}
+
 ### DOS COMPAT ###
 
 alias cls='clear'
