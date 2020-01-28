@@ -292,7 +292,14 @@ repeat() {
 alias upgrate='sudo apt update && sleep 1 && sudo apt upgrade'
 alias inst='sudo apt install'
 
-alias restartnow='sudo shutdown -r -t 0'
+restartnow() {
+    local UNAME=$(uname)
+    if [ "$UNAME" == "Darwin" ] || [ "$UNAME" == "Linux" ]; then
+        sudo shutdown -r now
+    else
+        shutdown /r /t 0
+    fi
+}
 
 mcat() {
     cat "$@" | more
