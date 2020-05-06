@@ -51,13 +51,17 @@ alias push='g push'
 alias pushf='g push --force-with-lease'
 alias pushu='g push -u'
 
-alias co='g checkout'
 alias blist='g branch -l --list'
 
 alias hdiff='g diff HEAD'
 alias fulldiff='g diff-index --binary'
 
 alias changedfiles='g diff --name-only HEAD~1'
+
+co() {
+    fetch
+    g checkout
+}
 
 alias master='co master && fetch && g reset --hard origin/master'
 alias revert='co HEAD~1'
@@ -165,10 +169,10 @@ ghcr() {
     if [ $exit_code -ne 0 ]; then
         return $exit_code
     fi
-    echo $reponame > README.md
+    echo "# $reponame" > README.md
     g init
     g add README.md
-    commit 'first commit'
+    commit 'init repo with README'
     g remote add origin git@github.com:$GITHUB_USERNAME/$reponame.git
     g push -u origin master
 }
