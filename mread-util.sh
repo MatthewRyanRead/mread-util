@@ -60,7 +60,7 @@ alias changedfiles='g diff --name-only HEAD~1'
 
 co() {
     fetch
-    g checkout
+    g checkout "$@"
 }
 
 alias master='co master && fetch && g reset --hard origin/master'
