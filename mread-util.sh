@@ -141,6 +141,8 @@ localbranch() {
     g branch 2> /dev/null | grep -E '^\*' | awk '{ print $2; }'
 }
 
+alias timelog='g reflog --format="%C(auto)%h %<|(17)%gd %C(blue)%ci%C(reset) %s"'
+
 ### GITHUB ###
 
 github_create_repo() {
@@ -314,9 +316,11 @@ lcat() {
 }
 
 detail() {
-    local FPATH=$(which $1)
-    if [ ! -z "$FPATH" ]; then
-        ls -al $FPATH && file $FPATH
+    local FPATH=$(which "$1" | tr -d '\r' | tr -d '\n')
+    if [ -z "$FPATH" ]; then
+        ls -al "$1" && file "$1"
+    else
+        ls -al "$FPATH" && file "$FPATH"
     fi
 }
 
