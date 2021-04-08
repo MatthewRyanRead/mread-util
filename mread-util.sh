@@ -64,6 +64,7 @@ co() {
 }
 
 alias master='co master && fetch && g reset --hard origin/master'
+alias main='co main && fetch && g reset --hard origin/main'
 alias revert='co HEAD~1'
 
 alias cherry='g cherry-pick'
@@ -82,8 +83,9 @@ newb() {
 }
 
 rebase() {
-    fetch && g rebase "$@" origin/master
+    fetch && g rebase "$@" origin/HEAD
 }
+
 
 amend() {
     if [ "$1" == "" ]; then
@@ -101,9 +103,9 @@ hascommit() {
     g log $1 | grep $2
 }
 
-# remove all local branches except for the current one + master
+# remove all local branches except for the current one + master/main
 gpurge() {
-    blist | grep -v '^\*' | grep -oE '[^ ]+' | grep -vE '^master$' | while read line; do g branch -D $line; done
+    blist | grep -v '^\*' | grep -oE '[^ ]+' | grep -vE '^(master|main)$' | while read line; do g branch -D $line; done
     g prune
 }
 
@@ -176,7 +178,7 @@ ghcr() {
     g add README.md
     commit 'init repo with README'
     g remote add origin git@github.com:$GITHUB_USERNAME/$reponame.git
-    g push -u origin master
+    g push -u origin main
 }
 
 rewrite-all-committers() {
