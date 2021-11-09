@@ -112,6 +112,7 @@ gpurge() {
 pruneall() {
     g reflog expire --expire=now --all
     g gc --aggressive --prune=now
+    g remote prune origin
 }
 
 branchpoint() {
