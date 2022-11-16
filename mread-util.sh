@@ -270,6 +270,8 @@ alias maven='mvn'
 alias mvnci='mvn clean install -DskipTests -DskipITs'
 alias mvnin='mvn install -DskipTests -DskipITs'
 
+alias cleansnaps='find ~/.m2/repository -depth -type d -regex '.*-SNAPSHOT$' -exec rm -rf {} \;'
+
 ### RANDOM ###
 
 alias repeatgif='gifsicle -bl'
