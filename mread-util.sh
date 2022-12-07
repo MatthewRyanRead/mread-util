@@ -59,7 +59,11 @@ alias fulldiff='g diff-index --binary'
 alias changedfiles='g diff --name-only HEAD~1'
 
 co() {
-    fetch
+    # only fetch if checking out a branch/ref (`co my-ref`), not a file (`co my-ref my-file`)
+    if [[ "$2" == "" ]]; then
+        fetch
+    fi
+
     g checkout "$@"
 }
 
