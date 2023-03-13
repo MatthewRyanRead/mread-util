@@ -217,7 +217,7 @@ fi
 # a better version of 'history'
 h() {
     if [ "$1" == "" ]; then
-        history | grep --color=auto -P '^[\s0-9]+' | tac | less -r
+        history | tac | less -r
     else
         local args="$@"
         history | grep --color=auto -E "$args" | tac | less -r
