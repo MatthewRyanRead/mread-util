@@ -327,6 +327,11 @@ rename() {
     mv "$1" "$(dirname $1)/$2"
 }
 
+# basic xargs that works with functions
+zargs() {
+    while read line; do "$@" "$line"; done
+}
+
 ### EDITING ###
 
 # find and edit in one go
