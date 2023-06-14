@@ -8,13 +8,13 @@ export MREAD_UTIL_BASE_PATH="$HOME/Developer/mread-util"
 ###
 
 utiledit() {
-    $EDITOR $MREAD_UTIL_BASE_PATH/mread-util.sh
-    source $MREAD_UTIL_BASE_PATH/mread-util.sh
+    $EDITOR "$MREAD_UTIL_BASE_PATH/mread-util.sh"
+    source "$MREAD_UTIL_BASE_PATH/mread-util.sh"
 }
 
 bashedit() {
-    $EDITOR ~/.bash_profile
-    source ~/.bash_profile
+    $EDITOR "$HOME/.bash_profile"
+    source "$HOME/.bash_profile"
 }
 
 ### GREP ###
@@ -24,39 +24,83 @@ gripeb() {
     grep --color=auto -rIE --exclude-dir=\.git "$@" . | less -r
 }
 
-alias grip='grep -i'
-alias gripe='gripeb 2>/dev/null'
-alias igripe='gripe -i'
-alias jgripe='gripe --include \*.java'
-alias jigripe='jgripe -i'
-alias jsgripe='gripe --include \*.js --include \*.mustache --exclude moment.js --exclude bundle.js --exclude \*.\*.js --exclude \*-min.js --exclude main.js --exclude templates.js --exclude-dir node_modules --exclude-dir testingData --exclude-dir packages --exclude-dir __tests__'
-alias jsigripe='jsgripe -i'
-alias sqlgripe='gripe --include \*.sql --exclude-dir target'
-alias sqligripe='sqlgripe -i'
+grip() {
+    grep -i "$@"
+}
+gripe() {
+    gripeb 2>/dev/null "$@"
+}
+igripe() {
+    gripe -i "$@"
+}
+jgripe() {
+    gripe --include \*.java "$@"
+}
+jigripe() {
+    jgripe -i "$@"
+}
+jsgripe() {
+    gripe --include \*.js --include \*.mustache --exclude moment.js --exclude bundle.js --exclude \*.\*.js --exclude \*-min.js --exclude main.js --exclude templates.js --exclude-dir node_modules --exclude-dir testingData --exclude-dir packages --exclude-dir __tests__ "$@"
+}
+jsigripe() {
+    jsgripe -i "$@"
+}
+sqlgripe() {
+    gripe --include \*.sql --exclude-dir target "$@"
+}
+sqligripe() {
+    sqlgripe -i "$@"
+}
 
 ### GIT ###
 
-alias g='git'
+g() {
+    git "$@"
+}
 
-alias clone='g clone'
+clone() {
+    g clone "$@"
+}
 
-alias status='g status'
+status() {
+    g status "$@"
+}
 
-alias fetch='g fetch'
+fetch() {
+    g fetch "$@"
+}
 
-alias adda='g add -A'
-alias addu='g add -u'
+adda() {
+    g add -A "$@"
+}
+addu() {
+    g add -u "$@"
+}
 
-alias push='g push'
-alias pushf='g push --force-with-lease'
-alias pushu='g push -u'
+push() {
+    g push "$@"
+}
+pushf() {
+    g push --force-with-lease "$@"
+}
+pushu() {
+    g push -u "$@"
+}
 
-alias blist='g branch -l --list'
+blist() {
+    g branch -l --list "$@"
+}
 
-alias hdiff='g diff HEAD'
-alias fulldiff='g diff-index --binary'
+hdiff() {
+    g diff HEAD "$@"
+}
+fulldiff() {
+    g diff-index --binary "$@"
+}
 
-alias changedfiles='g diff --name-only HEAD~1'
+changedfiles() {
+    g diff --name-only HEAD~1 "$@"
+}
 
 co() {
     # only fetch if checking out a branch/ref (`co my-ref`), not a file (`co my-ref my-file`)
@@ -67,16 +111,30 @@ co() {
     g checkout "$@"
 }
 
-alias master='co master && fetch && g reset --hard origin/master'
-alias main='co main && fetch && g reset --hard origin/main'
-alias revert='co HEAD~1'
+master() {
+    co master && fetch && g reset --hard origin/master "$@"
+}
+main() {
+    co main && fetch && g reset --hard origin/main "$@"
+}
+revert() {
+    co HEAD~1 "$@"
+}
 
-alias cherry='g cherry-pick'
+cherry() {
+    g cherry-pick "$@"
+}
 
-alias commit='g commit -m'
-alias admit='addu && commit'
+commit() {
+    g commit -m "$@"
+}
+admit() {
+    addu && commit "$@"
+}
 
-alias resetmaster='fetch && g reset --hard origin/master'
+resetmaster() {
+    fetch && g reset --hard origin/master "$@"
+}
 
 latest() {
     fetch && g reset --hard origin/$(g rev-parse --abbrev-ref HEAD)
@@ -90,7 +148,6 @@ rebase() {
     fetch && g rebase "$@" origin/HEAD
 }
 
-
 amend() {
     if [ "$1" == "" ]; then
         g commit --amend --no-edit
@@ -99,17 +156,21 @@ amend() {
     fi
 }
 
-alias commend='addu && amend'
+commend() {
+    addu && amend "$@"
+}
 
-alias crunch='addu && amend && fetch && rebase && pushf'
+crunch() {
+    addu && amend && fetch && rebase && pushf "$@"
+}
 
 hascommit() {
-    g log $1 | grep $2
+    g log "$1" | grep "$2"
 }
 
 # remove all local branches except for the current one + master/main
 gpurge() {
-    blist | grep -v '^\*' | grep -oE '[^ ]+' | grep -vE '^(master|main)$' | while read line; do g branch -D $line; done
+    blist | grep -v '^\*' | grep -oE '[^ ]+' | grep -vE '^(master|main)$' | while read line; do g branch -D "$line"; done
     g prune
 }
 
@@ -120,40 +181,48 @@ pruneall() {
 }
 
 branchpoint() {
-    g log -g --pretty=oneline $(g rev-parse --abbrev-ref HEAD) | tail -n 1 | awk '{ print $1; }'
+    g log -g --pretty=oneline "$(g rev-parse --abbrev-ref HEAD)" | tail -n 1 | awk '{ print $1; }'
 }
 
 delcommit() {
-    local BRANCH_POINT=$(branchpoint)
-    local HEAD=$(g rev-parse HEAD)
+    local BRANCH_POINT
+    BRANCH_POINT="$(branchpoint)"
+    local HEAD
+    HEAD="$(g rev-parse HEAD)"
 
-    g reset --hard $BRANCH_POINT
+    g reset --hard "$BRANCH_POINT"
 
-    g rev-list $BRANCH_POINT...$HEAD | tac | while read line; do
+    g rev-list "$BRANCH_POINT...$HEAD" | tac | while read line; do
         if [ "$line" != "$1" ]; then
-            cherry $line
+            cherry "$line"
         fi
     done
 }
 
-alias branchdiff='g diff $(branchpoint)...HEAD'
+branchdiff() {
+    g diff "$(branchpoint)...HEAD" "$@"
+}
 
-alias rbcont='addu && g rebase --continue'
+rbcont() {
+    addu && g rebase --continue "$@"
+}
 
 remotebranch() {
-    git rev-parse --abbrev-ref --symbolic-full-name @{u} 2> /dev/null | grep -oE '[^/]+$'
+    git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2> /dev/null | grep -oE '[^/]+$'
 }
 
 localbranch() {
     g branch 2> /dev/null | grep -E '^\*' | awk '{ print $2; }'
 }
 
-alias timelog='g reflog --format="%C(auto)%h %<|(17)%gd %C(blue)%ci%C(reset) %s"'
+timelog() {
+    g reflog --format="%C(auto)%h %<|(17)%gd %C(blue)%ci%C(reset) %s" "$@"
+}
 
 ### GITHUB ###
 
 github_create_repo() {
-    local ARG1=''
+    local ARG1
     if [ "$2" == "" ]; then
         echo "Usage: github_create_repo [username] [reponame] <oneTimeCode>"
         return 1
@@ -161,19 +230,22 @@ github_create_repo() {
     if [ "$3" != "" ]; then
         ARG1="X-GitHub-OTP: $3"
     fi
-    local ARG2="{\"name\":\"$2\"}"
+    local ARG2
+    ARG2="{\"name\":\"$2\"}"
 
-    http_code=$(curl -u $1 -H "$ARG1" -d $ARG2 https://api.github.com/user/repos -s -o /dev/null -w "%{http_code}")
-    if [ $http_code -ge 300 ] || [ $http_code -lt 200 ]; then
+    local http_code
+    http_code=$(curl -u "$1" -H "$ARG1" -d "$ARG2" https://api.github.com/user/repos -s -o /dev/null -w "%{http_code}")
+    if [ "$http_code" -ge 300 ] || [ "$http_code" -lt 200 ]; then
         echo "Error code: $http_code"
-        return $http_code
+        return "$http_code"
     fi
     return 0
 }
 
 ghcr() {
-    local reponame=$(basename "$PWD")
-    github_create_repo $GITHUB_USERNAME $reponame $@
+    local reponame
+    reponame=$(basename "$PWD")
+    github_create_repo "$GITHUB_USERNAME" "$reponame" "$@"
     local exit_code=$?
     if [ $exit_code -ne 0 ]; then
         return $exit_code
@@ -182,36 +254,46 @@ ghcr() {
     g init
     g add README.md
     commit 'init repo with README'
-    g remote add origin git@github.com:$GITHUB_USERNAME/$reponame.git
+    g remote add origin "git@github.com:$GITHUB_USERNAME/$reponame.git"
     g push -u origin main
 }
 
 rewrite-all-committers() {
-    local committer_name=$(git config user.name)
-    local committer_mail=$(git config user.email)
+    local committer_name
+    committer_name="$(git config user.name)"
+    local committer_mail
+    committer_mail="$(git config user.email)"
 
     git filter-branch --env-filter "
         export GIT_COMMITTER_NAME=\"$committer_name\"
-	export GIT_COMMITTER_EMAIL=\"$committer_mail\"
-	export GIT_AUTHOR_NAME=\"$committer_name\"
-	export GIT_AUTHOR_EMAIL=\"$committer_mail\"
+        export GIT_COMMITTER_EMAIL=\"$committer_mail\"
+        export GIT_AUTHOR_NAME=\"$committer_name\"
+        export GIT_AUTHOR_EMAIL=\"$committer_mail\"
     " --tag-name-filter cat -- --branches --tags
 }
 
 cloneme() {
-    clone git@github.com:$GITHUB_USERNAME/$1
+    clone "git@github.com:$GITHUB_USERNAME/$1"
 }
 
 ### DOS COMPAT ###
 
-alias cls='clear'
-alias where='which'
-alias tracert='traceroute'
+cls() {
+    clear "$@"
+}
+where() {
+    which "$@"
+}
+tracert() {
+    traceroute "$@"
+}
 
 ### SHELL/UTIL HELPERS ###
 
-if [ -z $(which tac) ]; then
-    alias tac='tail -r'
+if [ -z "$(which tac)" ]; then
+    tac() {
+        tail -r "$@"
+    }
 fi
 
 # a better version of 'history'
@@ -219,36 +301,41 @@ h() {
     if [ "$1" == "" ]; then
         history | tac | less -r
     else
-        local args="$@"
+        local args="$*"
         history | grep --color=auto -E "$args" | tac | less -r
     fi
 }
 
 # 'uniq' doesn't actually make things unique....
-alias dedupe='uniq'
-alias unique='sort | uniq'
+dedupe() {
+    uniq "$@"
+}
+unique() {
+    sort | uniq "$@"
+}
 
-alias fame='find . -name'
+fame() {
+    find . -name "$@"
+}
 
-alias filecount='ls -l | wc -l'
+filecount() {
+    ls -l | wc -l "$@"
+}
 
 # so you don't have to CD into the path or re-type it
 rename() {
-    mv $1 $(dirname $1)/$2
-}
-
-# basic xargs that works with aliases
-zargs() {
-    while read line; do "$@" "$line"; done
+    mv "$1" "$(dirname $1)/$2"
 }
 
 ### EDITING ###
 
 # find and edit in one go
-alias vind='fame -exec vim {} \;'
+vind() {
+    fame -exec vim {} \; "$@"
+}
 
 finj() {
-    idea $(fame "$@")
+    idea "$(fame "$@")"
 }
 
 ### CERTS ###
@@ -263,38 +350,52 @@ addcert() {
 }
 
 dlcert() {
-    openssl s_client -showcerts -connect $1:$2 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $1.pem
+    openssl s_client -showcerts -connect "$1:$2" < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > "$1.pem"
 }
 
-alias describecert='openssl x509 -text -in'
+describecert() {
+    openssl x509 -text -in "$@"
+}
 
 ### MAVEN ###
 
-alias maven='mvn'
-alias mvnci='mvn clean install -DskipTests -DskipITs'
-alias mvnin='mvn install -DskipTests -DskipITs'
+maven() {
+    mvn "$@"
+}
+mvnin() {
+    mvn install -DskipTests -DskipITs "$@"
+}
+mvnci() {
+    mvn clean install -DskipTests -DskipITs "$@"
+}
 
-alias cleansnaps='find ~/.m2/repository -depth -type d -regex '.*-SNAPSHOT$' -exec rm -rf {} \;'
+cleansnaps() {
+    find ~/.m2/repository -depth -type d -regex '.*-SNAPSHOT$' -exec rm -rf {} \;
+}
 
 ### RANDOM ###
 
-alias repeatgif='gifsicle -bl'
+repeatgif() {
+    gifsicle -bl "$@"
+}
 
 pushd() {
-    local UNAME=$(uname)
+    local UNAME
+    UNAME="$(uname)"
     if [ "$UNAME" == "Darwin" ] || [ "$UNAME" == "Linux" ]; then
-        command pushd "$@" > /dev/null
+        command pushd "$@" > /dev/null || return
     else
-        command pushd "$@"
+        command pushd "$@" || return
     fi
 }
 
 popd() {
-    local UNAME=$(uname)
+    local UNAME
+    UNAME="$(uname)"
     if [ "$UNAME" == "Darwin" ] || [ "$UNAME" == "Linux" ]; then
-        command popd "$@" > /dev/null
+        command popd "$@" > /dev/null || return
     else
-        command popd "$@"
+        command popd "$@" || return
     fi
 }
 
@@ -304,11 +405,16 @@ repeat() {
     done
 }
 
-alias upgrate='sudo apt update && sleep 1 && sudo apt upgrade'
-alias inst='sudo apt install'
+upgrate() {
+    sudo apt update && sleep 1 && sudo apt upgrade "$@"
+}
+inst() {
+    sudo apt install "$@"
+}
 
 restartnow() {
-    local UNAME=$(uname)
+    local UNAME
+    UNAME="$(uname)"
     if [ "$UNAME" == "Darwin" ] || [ "$UNAME" == "Linux" ]; then
         sudo shutdown -r now
     else
@@ -325,7 +431,8 @@ lcat() {
 }
 
 detail() {
-    local FPATH=$(which "$1" | tr -d '\r' | tr -d '\n')
+    local FPATH
+    FPATH=$(which "$1" | tr -d '\r' | tr -d '\n')
     if [ -z "$FPATH" ]; then
         ls -al "$1" && file "$1"
     else
@@ -333,4 +440,6 @@ detail() {
     fi
 }
 
-alias prettify='python -m json.tool'
+prettify() {
+    python -m json.tool "$@"
+}
