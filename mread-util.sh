@@ -448,3 +448,7 @@ detail() {
 prettify() {
     python -m json.tool "$@"
 }
+
+hex() {
+    echo -n "$1" | xxd -ps -c 0 "${@:2}"
+}
