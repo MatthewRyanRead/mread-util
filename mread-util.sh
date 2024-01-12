@@ -180,6 +180,10 @@ pruneall() {
     g remote prune origin
 }
 
+gclean() {
+    gpurge && pruneall
+}
+
 branchpoint() {
     g log -g --pretty=oneline "$(g rev-parse --abbrev-ref HEAD)" | tail -n 1 | awk '{ print $1; }'
 }
