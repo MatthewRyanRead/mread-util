@@ -3,7 +3,7 @@
 # - GITHUB_USERNAME
 # Edit this variable if you cloned this somewhere other than ~/Developer:
 
-export MREAD_UTIL_BASE_PATH="$HOME/Developer/mread-util"
+export MREAD_UTIL_BASE_PATH="$HOME/Developer/MatthewRyanRead/mread-util"
 
 ###
 
