@@ -300,6 +300,15 @@ if [ -z "$(which tac)" ]; then
     }
 fi
 
+if [ -z "$(which pbcopy)" ]; then
+    pbcopy() {
+        xclip -selection clipboard
+    }
+    pbpaste() {
+        xclip -selection clipboard -o
+    }
+fi
+
 # a better version of 'history'
 h() {
     if [ "$1" == "" ]; then
@@ -456,3 +465,4 @@ prettify() {
 hex() {
     echo -n "$1" | xxd -ps -c 0 "${@:2}"
 }
+
