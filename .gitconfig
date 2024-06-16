@@ -1,0 +1,17 @@
+[user]
+	name = Matthew Read
+	email = MatthewRyanRead@users.noreply.github.com
+[core]
+	editor = vim
+[pull]
+	ff = only
+	rebase = merges
+[push]
+	default = current
+[commit]
+	gpgsign = true
+[init]
+	defaultbranch = main
+[advice]
+	detachedhead = false
+
