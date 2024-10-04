@@ -340,6 +340,12 @@ rename() {
     mv "$1" "$(dirname $1)/$2"
 }
 
+swap() {
+    mv "$1" "$TMPDIR/$1"
+    mv "$2" "$1"
+    mv "$TMPDIR/$1" "$2"
+}
+
 # basic xargs that works with functions
 zargs() {
     while read line; do "$@" "$line"; done
