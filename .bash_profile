@@ -1,7 +1,7 @@
 export EDITOR=vim
 export GITHUB_USERNAME=MatthewRyanRead
 
-source ~/Developer/mread-util/mread-util.sh
+source "$MREAD_UTIL_BASE_PATH/mread-util.sh"
 
 export HISTSIZE=100000
 export HISTFILESIZE=1000000
