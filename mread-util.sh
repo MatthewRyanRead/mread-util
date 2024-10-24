@@ -386,11 +386,20 @@ describecert() {
 maven() {
     mvn "$@"
 }
+mvnnt() {
+    mvn -DskipTests -DskipITs "$@"
+}
 mvnin() {
-    mvn install -DskipTests -DskipITs "$@"
+    mvnnt install "$@"
 }
 mvnci() {
-    mvn clean install -DskipTests -DskipITs "$@"
+    mvnnt clean install "$@"
+}
+mvnpkg() {
+    mvnnt package "$@"
+}
+mvncp() {
+    mvnnt clean package "$@"
 }
 
 cleansnaps() {
