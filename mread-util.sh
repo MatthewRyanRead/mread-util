@@ -223,6 +223,15 @@ timelog() {
     g reflog --format="%C(auto)%h %<|(17)%gd %C(blue)%ci%C(reset) %s" "$@"
 }
 
+gfind() {
+    git log -E -G "$1" --format=%H |
+        while read commit; do
+            git log -1 "$commit"
+            git diff "$commit^!" |
+                grep -E "${@:2}" "$1"
+        done
+}
+
 ### GITHUB ###
 
 github_create_repo() {
