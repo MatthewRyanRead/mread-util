@@ -34,19 +34,22 @@ igripe() {
     gripe -i "$@"
 }
 jgripe() {
-    gripe --include \*.java "$@"
+    gripe --include '*.java' "$@"
 }
 jigripe() {
     jgripe -i "$@"
 }
 jsgripe() {
-    gripe --include \*.js --include \*.mustache --exclude moment.js --exclude bundle.js --exclude \*.\*.js --exclude \*-min.js --exclude main.js --exclude templates.js --exclude-dir node_modules --exclude-dir testingData --exclude-dir packages --exclude-dir __tests__ "$@"
+    gripe --include '*.js' --include '*.ts' --include '*.mustache' --exclude moment.js \
+          --exclude bundle.js --exclude '*.*.js' --exclude '*-min.js' --exclude main.js \
+          --exclude templates.js --exclude-dir node_modules --exclude-dir testingData \
+          --exclude-dir packages --exclude-dir __tests__ "$@"
 }
 jsigripe() {
     jsgripe -i "$@"
 }
 sqlgripe() {
-    gripe --include \*.sql --exclude-dir target "$@"
+    gripe --include '*.sql' --exclude-dir target "$@"
 }
 sqligripe() {
     sqlgripe -i "$@"
@@ -212,11 +215,11 @@ rbcont() {
 }
 
 remotebranch() {
-    git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2> /dev/null | grep -oE '[^/]+$'
+    git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null | grep -oE '[^/]+$'
 }
 
 localbranch() {
-    g branch 2> /dev/null | grep -E '^\*' | awk '{ print $2; }'
+    git rev-parse --abbrev-ref --symbolic-full-name HEAD 2>/dev/null
 }
 
 timelog() {
