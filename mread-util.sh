@@ -363,6 +363,10 @@ zargs() {
     while read line; do "$@" "$line"; done
 }
 
+skip() {
+  tail -n "+$((1+$1))"
+}
+
 ### EDITING ###
 
 # find and edit in one go
@@ -491,5 +495,9 @@ prettify() {
 
 hex() {
     echo -n "$1" | xxd -ps -c 0 "${@:2}"
+}
+
+rmdi() {
+    docker ps -a | skip 1 | awk '{ print $1; }' | zargs docker rm -f
 }
 
