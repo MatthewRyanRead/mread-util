@@ -497,7 +497,7 @@ hex() {
     echo -n "$1" | xxd -ps -c 0 "${@:2}"
 }
 
-rmdi() {
+rmdc() {
     docker ps -a | skip 1 | awk '{ print $1; }' | zargs docker rm -f
 }
 
